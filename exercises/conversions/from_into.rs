@@ -33,12 +33,57 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of Person
 // Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+
+        if s.is_empty() {
+            return Person::default();
+        }
+        let list :Vec<&str>= s.split(',').collect();
+        if list.len() != 2 {
+            return Person::default();
+        }
+        if list[0].is_empty() {
+            return Person::default();
+        }
+        let rage = list[1].parse::<usize>();
+        if let Ok(s) = rage {
+            return Person {
+                name: list[0].to_string(),
+                age: s,
+            }
+        }else {
+            return Person::default()
+        }
     }
 }
+
+impl Into<Person> for String{
+    fn into(self) -> Person {
+        if self.is_empty() {
+            return Person::default();
+        }
+        let list :Vec<&str>= self.split(',').collect();
+        if list.len() != 2 {
+            return Person::default();
+        }
+        if list[0].is_empty() {
+            return Person::default();
+        }
+        let rage = list[0].parse::<usize>();
+        if let Ok(s) = rage {
+            return Person {
+                name: list[0].to_string(),
+                age: s,
+            }
+        }else {
+            return Person::default()
+        }
+    }
+}
+
+
 
 fn main() {
     // Use the `from` function
